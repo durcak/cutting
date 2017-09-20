@@ -145,7 +145,7 @@ header .container-fluid
     border: 1px solid #FFF;
     font-family: 'Roboto Slab', serif;
     margin-left: 6.5%;
-    background-color: rgba(128, 215, 247, 0.660);
+    /*background-color: rgba(128, 215, 247, 0.660);*/
 }
 
 .boxes .odometer.odometer-theme-default
