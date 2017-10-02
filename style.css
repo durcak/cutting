@@ -304,6 +304,56 @@ footer p
     width: 100%;
 }
 
+.fb-comments, .fb-comments iframe[style], .fb-comments span, .fb-comments.fb_iframe_widget span iframe {
+   width: 100% !important;
+}
 .fb-page, .fb-page iframe[style], .fb-page span {
     width: 100% !important;
+}
+
+.header-languages {
+    float: left;
+    padding: 15px 0;
+}
+@media screen and (max-width: 39.9375em) {
+    .header-languages {
+        padding: 20px 0;
+    }
+}
+.header-languages ul {
+    margin: 0;
+    font-size: 0;
+}
+.header-languages ul li,
+.header-languages ul li a,
+.header-languages ul li a span {
+    display: inline-block;
+}
+.header-languages ul li {
+    margin: 0 4px;
+}
+@media screen and (max-width: 39.9375em) {
+    .header-languages ul li {
+        margin: 0 2px;
+    }
+}
+.header-languages ul li a {
+    padding: 11px;
+    color: #d6a876;
+    /*border: 1px solid #FFFFFF;*/
+}
+@media screen and (max-width: 39.9375em) {
+    .header-languages ul li a {
+        padding: 6px;
+    }
+}
+.header-languages ul li.active a,
+.header-languages ul li a:hover {
+    color: #fff;
+    border: 1px solid #FFFFFF;
+}
+.header-languages ul li a span {
+    font-size: 16px;
+    line-height: 16px;
+    text-transform: uppercase;
 }
