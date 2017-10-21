@@ -34,11 +34,12 @@
 		  theme: 'default'
 		};
 		</script>
+
 	</head>
 	<body class="">
-	  <!-- Pushy Menu -->
-	  <nav class="pushy pushy-left">
-		<ul class="list-unstyled">
+		<!-- Pushy Menu -->
+		<nav class="pushy pushy-left">
+		<ul class="list-unstyled">			
 			<li><a href="#home">Úvod</a></li>
 			<li><a href="#feat">Ponúkame</a></li>
 			<li><a href="#about">O nás</a></li>
@@ -49,16 +50,16 @@
 			<li><a href="#team">Kontakt</a></li>
 			<li><a href="#contact">Map</a></li>
 		</ul>
-	  </nav>
-	  <!-- Site Overlay -->
-	  <div class="site-overlay"></div>
+		</nav>
+		<!-- Site Overlay -->
+		<div class="site-overlay"></div>
 
 		<header id="home">
 			<div class="container-fluid">
 				<!-- change the image in style.css to the class header .container-fluid [approximately row 50] -->
 				<div class="container">
 					<div class="row">
-						<div class="col-md-2 col-xs-2">
+						<div class="col-md-2">
 							<a href="#" class="thumbnail logo">
 								<img src="images/logo_white2.png" alt="" class="img-responsive center-block">
 							</a>
@@ -180,12 +181,17 @@
 					<div class="row">
 						<div class="col-md-6 opalines">
 							<div class="row">
-								<div class="col-md-10 col-md-offset-1">
+								<div class="col-md-10 col-md-offset-1 text-center">
 									<h2>Všetky novinky najdete na našej FB stránke.</h2>
-									<div class="fb-page">
-								  		<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FNorthOravaCuttingHorses%2F%3Ffref%3Dts&tabs=timeline&width=470&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId=621067251414335" width="100%" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" data-adapt-container-width="true"></iframe>
-								  	</div>
-								  </br>
+									<div id="fb-root"></div>
+									<script>(function(d, s, id) {
+									  var js, fjs = d.getElementsByTagName(s)[0];
+									  if (d.getElementById(id)) return;
+									  js = d.createElement(s); js.id = id;
+									  js.src = 'https://connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v2.10&appId=621067251414335';
+									  fjs.parentNode.insertBefore(js, fjs);
+									}(document, 'script', 'facebook-jssdk'));</script>
+									<div class="fb-page" data-href="https://www.facebook.com/NorthOravaCuttingHorses/?fref=ts" data-tabs="timeline" data-width="500" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/NorthOravaCuttingHorses/?fref=ts" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/NorthOravaCuttingHorses/?fref=ts">North Orava Cutting Horses</a></blockquote></div>
 								</div>
 							</div>
 						</div>

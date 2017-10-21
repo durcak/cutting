@@ -52,7 +52,9 @@ header .container-fluid
     background-image: url('images/North-Orava-Cutting-18_small_b.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center center;
     height: 100vh;
+    /*background-size: 100% auto;*/
     padding-top: 36px;
 }
 
@@ -310,6 +312,13 @@ footer p
 .fb-page, .fb-page iframe[style], .fb-page span {
     width: 100% !important;
 }
+
+#fbpage{
+/*    width: 280px;
+    height: 350px;
+    background-color: #e5e5e5;*/
+ }
+
 
 .header-languages {
     float: left;
