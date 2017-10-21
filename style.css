@@ -310,7 +310,7 @@ footer p
    width: 100% !important;
 }
 .fb-page, .fb-page iframe[style], .fb-page span {
-    width: 100% !important;
+    /*width: 100% !important;*/
     margin: 0 auto;
 }
 
