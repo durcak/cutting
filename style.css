@@ -77,6 +77,15 @@ header .container-fluid
     border: 0px;
 }
 
+
+@media screen and (max-width: 39.9375em) {
+    .logo-small {
+        padding: 15px 0;
+        float: left;
+    }
+}
+
+
 .jumbotron
 {
     background: none;
@@ -94,6 +103,10 @@ header .container-fluid
 {
     color: #FFFFFF;
     background-color: unset;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);ba(0,0,0,0.05);
+
 }
 
 .jumbotron p
@@ -102,6 +115,9 @@ header .container-fluid
     margin-bottom: 5%;
     font-size: 1.2em;
     background-color: unset;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);ba(0,0,0,0.05);
 }
 
 
@@ -142,7 +158,15 @@ header .container-fluid
 }
 
 .opalines h2 {
-    color: #b5c771; 
+    color: #83C14C; 
+}
+
+.story h2 {
+    color: #FDF3E7;
+}
+
+.blog h2 {
+    color: #83C14C;
 }
 
 .opaline h1,
@@ -175,7 +199,7 @@ header .container-fluid
 .story .container-fluid
 {
     /*background-image: url('images/North-Orava-Cutting-10b.jpg');*/
-    background-color: #005A31;
+    background-color: #83C14C;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -194,8 +218,8 @@ header .container-fluid
 
 .gallery
 {
-    background-color: #dddddd;
-    /*background-color: #F3FAB6;*/
+    /*background-color: #dddddd;*/
+    background-color: #FDF3E7;
 }
 
 .prefooter .container-fluid
@@ -391,35 +415,9 @@ footer p
 {
     position: absolute;
     top: 50px;
-    width: 96.66666666666666%;
+    /*width: 96.66666666666666%;*/
     color: #FFF;
 }
-
-/*.full-screen {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-html,body{height:100%;}
-.carousel,.item,.active{height:100%;}
-.carousel-inner{height:100%;}
-
-html,
-body {
-    height: 100%;
-}
-
-.carousel,
-.item,
-.active {
-    height: 100%;
-}
-
-
-.carousel-inner {
-    height: 100%;
-}*/
 
 .fill {
     width: 100%;
@@ -445,4 +443,28 @@ body {
 
   display: flex;
   align-items: center;
+}
+
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+}
+.title h1 {
+  text-transform: uppercase;
+  margin: 0;
+  font-size: 3rem;
+  white-space: nowrap;
+  color: white;
+}
+.title h2 {
+  font-size: 2rem;
+  color: white;
+}
+.title p {
+  margin: 0;
+  font-size: 1.3rem;
 }
