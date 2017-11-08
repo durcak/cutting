@@ -111,7 +111,8 @@ header .container-fluid
 
 .number .container-fluid
 {
-    background-image: url('images/North-Orava-Cutting-19-smaler.jpg');
+    /*background-image: url('images/North-Orava-Cutting-19-smaler.jpg');*/
+    background-color: #005A31;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -127,9 +128,21 @@ header .container-fluid
 
 .opalines
 {
-    padding-top: 3em;
-    padding-bottom: 3em;
-    background-color: rgba(255, 255, 255, 0.6588235294117647);
+    /*padding-top: 5em;*/
+    /*padding-bottom: 5em;*/
+    /*background-color: rgba(255, 255, 255, 0.6588235294117647);*/
+}
+.opalines h1,
+.opalines h3,
+.opalines h4,
+.opalines h5,
+.opalines h6,
+.opalines p {
+    color:#FDF3E7;
+}
+
+.opalines h2 {
+    color: #b5c771; 
 }
 
 .opaline h1,
@@ -161,7 +174,8 @@ header .container-fluid
 
 .story .container-fluid
 {
-    background-image: url('images/North-Orava-Cutting-10b.jpg');
+    /*background-image: url('images/North-Orava-Cutting-10b.jpg');*/
+    background-color: #005A31;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -169,7 +183,8 @@ header .container-fluid
 
 .accomodation .container-fluid
 {
-    background-image: url('images/gallery/10.jpg');
+    /*background-image: url('images/gallery/10.jpg');*/
+    background-color: #005A31;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -180,6 +195,7 @@ header .container-fluid
 .gallery
 {
     background-color: #dddddd;
+    /*background-color: #F3FAB6;*/
 }
 
 .prefooter .container-fluid
@@ -421,4 +437,12 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
 }
