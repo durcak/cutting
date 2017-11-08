@@ -410,12 +410,19 @@ footer p
     line-height: 16px;
     text-transform: uppercase;
 }
+@media screen and (max-width: 39.9375em) {
+    .header-languages ul li a span {
+        font-size: 13px;
+        line-height: 13px;
+        text-transform: uppercase;
+    }
+}
 
 .skuska
 {
     position: absolute;
     top: 50px;
-    /*width: 96.66666666666666%;*/
+    width: 100%;
     color: #FFF;
 }
 
@@ -467,4 +474,9 @@ footer p
 .title p {
   margin: 0;
   font-size: 1.3rem;
+}
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
 }
