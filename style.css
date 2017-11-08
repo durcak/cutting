@@ -80,7 +80,7 @@ header .container-fluid
 
 @media screen and (max-width: 39.9375em) {
     .logo-small {
-        padding: 15px 0;
+        padding: 20px 0;
         float: left;
     }
 }
@@ -183,12 +183,8 @@ header .container-fluid
 .opaline .boxes
 {
     margin-top: 30px;
-    /*padding-top: 20px;*/
-    /*padding-bottom: 5px;*/
     border: 1px solid #FFF;
     font-family: 'Roboto Slab', serif;
-    /*margin-left: 6.5%;*/
-    /*background-color: rgba(128, 215, 247, 0.660);*/
 }
 
 .boxes .odometer.odometer-theme-default
@@ -356,13 +352,6 @@ footer p
     /*width: 100% !important;*/
     margin: 0 auto;
 }
-
-#fbpage{
-/*    width: 280px;
-    height: 350px;
-    background-color: #e5e5e5;*/
- }
-
 
 .header-languages {
     float: left;
