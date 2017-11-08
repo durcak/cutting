@@ -220,12 +220,7 @@ header .container-fluid
 
 .prefooter .container-fluid
 {
-    background: linear-gradient(
-      rgba(33, 37, 43, 0.6),
-      rgba(33, 37, 43, 0.6)
-    ),
-
-    url('images/gallery/North-Orava-Cutting-07.jpg');
+    background-color: #83C14C; 
 }
 
 .prefooter h1,
