@@ -83,6 +83,12 @@ header .container-fluid
         padding: 20px 0;
         float: left;
     }
+
+    .hamburger
+    {
+        font-size: 1.9em;
+        color: #FFF;
+    }
 }
 
 
@@ -195,7 +201,7 @@ header .container-fluid
 .story .container-fluid
 {
     /*background-image: url('images/North-Orava-Cutting-10b.jpg');*/
-    background-color: #83C14C;
+    background-color: #11281b;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -240,7 +246,7 @@ header .container-fluid
 
 footer
 {
-    background-color: rgba(36, 50, 59, 1);
+    background-color: #005A31;
     padding-top: 2em;
     padding-bottom: 1.2em;
 }
@@ -360,6 +366,7 @@ footer p
 .header-languages ul {
     margin: 0;
     font-size: 0;
+    padding-left: 20px;
 }
 .header-languages ul li,
 .header-languages ul li a,
@@ -405,7 +412,7 @@ footer p
 .skuska
 {
     position: absolute;
-    top: 50px;
+    top: 6%;
     width: 100%;
     color: #FFF;
 }
