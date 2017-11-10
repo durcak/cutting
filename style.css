@@ -1,3 +1,4 @@
+
 /*------------------------------------*\
 	COMMONS CLASSES
 \*------------------------------------*/
@@ -42,6 +43,38 @@ span.x4:before, i.x4:before
     font-size: 6em;
 }
 
+@font-face {
+  font-family: 'Glyphicons Halflings';
+
+  src: url('bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('bootstrap/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon-bed:before {
+  content: "\e219";
+}
+.glyphicon-chevron-left:before {
+  content: "\e079";
+}
+.glyphicon-chevron-right:before {
+  content: "\e080";
+}
+
+body {
+    padding-top: 70px;
+}
 
 /*------------------------------------*\
 	HEADER
@@ -49,13 +82,28 @@ span.x4:before, i.x4:before
 
 header .container-fluid
 {
-    background-image: url('images/North-Orava-Cutting-18_small_b.jpg');
-    background-repeat: no-repeat;
+    /*background-image: url('images/North-Orava-Cutting-18_small_b.jpg');*/
+/*    background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     height: 110vh;
     /*background-size: 100% auto;*/
-    padding-top: 36px;
+    padding-top: 36px;*/
+}
+
+.header
+{
+/*    position: absolute;
+    top: 6%;
+    width: 100%;
+    color: #FFF;*/
+
+    background: #005A31;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    transition: top 0.2s ease-in-out;
+    width: 100%;
 }
 
 .hamburger
@@ -66,7 +114,7 @@ header .container-fluid
 
 .hamburger:hover
 {
-  color: #FFF;
+  color: #83C14C;
   cursor: pointer;
 }
 
@@ -201,7 +249,7 @@ header .container-fluid
 .story .container-fluid
 {
     /*background-image: url('images/North-Orava-Cutting-10b.jpg');*/
-    background-color: #11281b;
+    background-color: #005A31;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -393,7 +441,7 @@ footer p
 }
 .header-languages ul li.active a,
 .header-languages ul li a:hover {
-    color: #fff;
+    color: #83C14C;
     border: 1px solid #FFFFFF;
 }
 .header-languages ul li a span {
@@ -409,13 +457,7 @@ footer p
     }
 }
 
-.skuska
-{
-    position: absolute;
-    top: 6%;
-    width: 100%;
-    color: #FFF;
-}
+
 
 .fill {
     width: 100%;
@@ -470,4 +512,20 @@ footer p
 .nopadding {
    padding: 0 !important;
    margin: 0 !important;
+}
+
+.carousel-caption {
+    top: 30%;
+    bottom: auto;
+    color: white;
+}
+.carousel-caption h1,
+.carousel-caption h2,
+.carousel-caption h3 {
+    color: white;
+}
+
+.carousel-control {
+    width: 10%;
+    opacity: 0.2;
 }
