@@ -99,7 +99,7 @@ header .container-fluid
     width: 100%;
     color: #FFF;*/
     overflow: hidden;
-    /*background: #005A31;*/
+    background: rgba(0,90,48,.89);;
     height: 70px;
     position: fixed;
     top: 0;
