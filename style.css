@@ -73,8 +73,9 @@ span.x4:before, i.x4:before
 }
 
 body {
-    padding-top: 70px;
+    /*padding-top: 70px;*/
 }
+
 
 /*------------------------------------*\
 	HEADER
@@ -83,12 +84,12 @@ body {
 header .container-fluid
 {
     /*background-image: url('images/North-Orava-Cutting-18_small_b.jpg');*/
-/*    background-repeat: no-repeat;
+    background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     height: 110vh;
     /*background-size: 100% auto;*/
-    padding-top: 36px;*/
+    padding-top: 36px;
 }
 
 .header
@@ -97,13 +98,18 @@ header .container-fluid
     top: 6%;
     width: 100%;
     color: #FFF;*/
-
-    background: #005A31;
+    overflow: hidden;
+    /*background: #005A31;*/
     height: 70px;
     position: fixed;
     top: 0;
     transition: top 0.2s ease-in-out;
     width: 100%;
+    z-index: 1000;
+}
+
+.nav-up {
+    top: -70px;
 }
 
 .hamburger

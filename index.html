@@ -148,7 +148,7 @@
     			<span class="sr-only">Next</span>
             </a>
 		</div>
-        <header id="home" class="header container-fluid">
+        <header id="home" class="header nav-down container-fluid">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-2 col-sm-3 hidden-xs">
@@ -610,3 +610,69 @@
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> -->
+
+<script>
+	// Hide Header on on scroll down
+	var didScroll;
+	var lastScrollTop = 0;
+	var delta = 5;
+	var navbarHeight = $('header').outerHeight();
+
+	$(window).scroll(function(event){
+	    didScroll = true;
+	});
+
+	setInterval(function() {
+	    if (didScroll) {
+	        hasScrolled();
+	        didScroll = false;
+	    }
+	}, 250);
+
+	function hasScrolled() {
+	    var st = $(this).scrollTop();
+	    
+	    // Make sure they scroll more than delta
+	    if(Math.abs(lastScrollTop - st) <= delta)
+	        return;
+	    
+	    // If they scrolled down and are past the navbar, add class .nav-up.
+	    // This is necessary so you never see what is "behind" the navbar.
+	    if (st > lastScrollTop && st > navbarHeight){
+	        // Scroll Down
+	        $('header').removeClass('nav-down').addClass('nav-up');
+	    } else {
+	        // Scroll Up
+	        if(st + $(window).height() < $(document).height()) {
+	            $('header').removeClass('nav-up').addClass('nav-down');
+	        }
+	    }
+	    
+	    lastScrollTop = st;
+	}
+</script>
+
+<script>
+	var top1 = $('#home').offset().top;
+	var top2 = $('#feat').offset().top;
+	var top3 = $('#contact').offset().top;
+
+	$(document).scroll(function() {
+	  var scrollPos = $(document).scrollTop();
+	  if (scrollPos < top2) {
+	    $('#home').css('background-color', 'transparent');
+	  } else if (scrollPos >= top2) {
+	    $('#home').css('background-color', '#005A31');
+	  }
+	});
+</script>
+
+<!-- 			<li><a href="#home">Úvod</a></li>
+			<li><a href="#feat">Ponúkame</a></li>
+			<li><a href="#about">O nás</a></li>
+			<li><a href="#cutting">Cutting</a></li>
+			<li><a href="#news">Novinky</a></li>
+			<li><a href="#photos">Galéria</a></li>
+			<li><a href="#accomodation">Ubytovanie</a></li>
+			<li><a href="#team">Kontakt</a></li>
+			<li><a href="#contact">Mapa</a></li> -->
