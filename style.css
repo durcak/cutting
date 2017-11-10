@@ -92,6 +92,7 @@ header .container-fluid
     padding-top: 36px;
 }
 
+
 .header
 {
 /*    position: absolute;
@@ -143,6 +144,11 @@ header .container-fluid
         font-size: 1.9em;
         color: #FFF;
     }
+
+    .menu-btn {
+        padding-top: 4px;
+    }
+
 }
 
 
