@@ -1,4 +1,4 @@
-
+/*
 /*------------------------------------*\
 	COMMONS CLASSES
 \*------------------------------------*/
@@ -14,13 +14,24 @@ h1, h2, h3, h4, h5, h6
 }
 
 .features,
-.blog,
 .gallery,
 .clients,
 .prefooter .container-fluid
 {
     padding-top: 3.3em;
     padding-bottom: 4.2em;
+}
+
+.blog
+{
+  padding-top: 3.3em;
+  padding-bottom: 3.3em
+}
+
+.sale
+{
+  padding-left: 0;
+  padding-bottom: 5em;
 }
 
 span.typcn::before, i.typcn::before
@@ -235,6 +246,11 @@ header .container-fluid
     color: #83C14C;
 }
 
+.sale h2 {
+    color: #83C14C;
+    margin-bottom: 1em;
+}
+
 .opaline h1,
 .opaline h2,
 .opaline h3,
@@ -323,6 +339,11 @@ footer p
 }
 
 .social
+{
+    padding-top: 10px;
+}
+
+.brand
 {
     padding-top: 40px;
 }
