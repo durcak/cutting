@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sk" x-data="{ mobileOpen: false, scrolled: false }" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 60 })">
+<html lang="sk">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -17,23 +17,19 @@
         extend: {
           colors: {
             forest: {
-              50:  '#f2f8ed',
-              100: '#e0eed4',
-              200: '#c1dcaa',
-              300: '#96c272',
-              400: '#6da342',
-              500: '#4a7c1f',
-              600: '#3a6318',
-              700: '#2d4f13',
-              800: '#1e3a0b',
-              900: '#152808',
+              50:  '#f2f8ed', 100: '#e0eed4', 200: '#c1dcaa', 300: '#96c272',
+              400: '#6da342', 500: '#4a7c1f', 600: '#3a6318', 700: '#2d4f13',
+              800: '#1e3a0b', 900: '#152808',
             },
             cream: '#f0f0ee',
+            sand:  '#c2a878',   /* muted brass / leather accent — used sparingly */
+            bark:  '#21180f',
           },
           fontFamily: {
             serif: ['Roboto Slab', 'Georgia', 'serif'],
             sans:  ['Raleway', 'system-ui', 'sans-serif'],
           },
+          letterSpacing: { 'eyebrow': '.28em' },
         }
       }
     }
@@ -45,67 +41,105 @@
   <style>
     [x-cloak] { display: none !important; }
     html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; }
 
+    ::selection { background: #3a6318; color: #fff; }
+
+    /* ── Navbar ── */
     .nav-scrolled {
-      background: rgb(21 40 8 / 0.97) !important;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+      background: rgb(21 40 8 / 0.94) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgb(255 255 255 / .06), 0 12px 40px -12px rgba(0,0,0,.55);
     }
 
+    /* ── Eyebrow label with leading rule ── */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .75rem;
+      font-size: .72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .28em; color: #4a7c1f;
+    }
+    .eyebrow::before {
+      content: ""; width: 2rem; height: 1px; background: currentColor; opacity: .55;
+    }
+    .eyebrow.is-centered { }
+    .eyebrow.on-dark { color: #c2a878; }
+
+    /* ── Hero ── */
+    .hero-bg { will-change: transform; }
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-zoom { animation: kenburns 18s ease-out forwards; }
+    }
+    @keyframes kenburns {
+      from { transform: scale(1.08); }
+      to   { transform: scale(1); }
+    }
     .hero-overlay {
-      background: linear-gradient(160deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.6) 100%);
+      background:
+        linear-gradient(180deg, rgba(11,20,4,.55) 0%, rgba(11,20,4,0) 28%, rgba(11,20,4,.15) 60%, rgba(11,20,4,.82) 100%),
+        radial-gradient(120% 80% at 50% 35%, transparent 40%, rgba(11,20,4,.45) 100%);
     }
+    .hero-title { text-shadow: 0 2px 40px rgba(0,0,0,.35); }
 
-    .service-card:hover .service-img { transform: scale(1.07); }
-
-    .gallery-grid {
-      columns: 3;
-      column-gap: 10px;
+    @keyframes scrolldot {
+      0%   { transform: translateY(0); opacity: 0; }
+      35%  { opacity: 1; }
+      70%  { transform: translateY(14px); opacity: 0; }
+      100% { opacity: 0; }
     }
+    .scroll-dot { animation: scrolldot 1.9s cubic-bezier(.4,0,.2,1) infinite; }
+
+    /* ── Service / card image zoom ── */
+    .card-img { transition: transform .7s cubic-bezier(.22,1,.36,1); }
+    .card:hover .card-img { transform: scale(1.06); }
+    .card-arrow { transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .3s; }
+    .card:hover .card-arrow { transform: translateX(4px); }
+
+    /* ── Gallery masonry ── */
+    .gallery-grid { columns: 3; column-gap: 14px; }
     .gallery-grid a {
-      display: block;
-      margin-bottom: 10px;
-      break-inside: avoid;
-      overflow: hidden;
-      border-radius: 10px;
+      display: block; margin-bottom: 14px; break-inside: avoid;
+      overflow: hidden; border-radius: 14px; position: relative;
     }
-    .gallery-grid img {
-      width: 100%;
-      display: block;
-      transition: transform .45s ease;
+    .gallery-grid img { width: 100%; display: block; transition: transform .8s cubic-bezier(.22,1,.36,1); }
+    .gallery-grid a::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(21,40,8,.45));
+      opacity: 0; transition: opacity .4s;
     }
-    .gallery-grid a:hover img { transform: scale(1.04); }
+    .gallery-grid a:hover img { transform: scale(1.05); }
+    .gallery-grid a:hover::after { opacity: 1; }
 
-    .team-photo {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 9999px;
-    }
+    /* ── Team photo ── */
+    .team-photo { width: 168px; height: 168px; object-fit: cover; border-radius: 9999px; }
 
-    .sponsor-logo {
-      filter: opacity(.75);
-      transition: filter .3s;
-    }
-    .sponsor-logo:hover { filter: opacity(1); }
+    .sponsor-logo { filter: grayscale(1) opacity(.55); transition: filter .35s; }
+    .sponsor-logo:hover { filter: grayscale(0) opacity(1); }
 
-    .map-wrap {
-      position: relative;
-      padding-bottom: 42%;
-      height: 0;
-      overflow: hidden;
+    /* ── Map ── */
+    .map-wrap { position: relative; padding-bottom: 46%; height: 0; overflow: hidden; }
+    .map-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: #3a6318; color: #fff;
+      box-shadow: 0 10px 30px -10px rgba(45,79,19,.7);
+      transition: transform .25s cubic-bezier(.22,1,.36,1), background .25s, box-shadow .25s;
     }
-    .map-wrap iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
+    .btn-primary:hover { background: #4a7c1f; transform: translateY(-2px); box-shadow: 0 18px 40px -12px rgba(45,79,19,.8); }
+    .btn-ghost {
+      background: rgba(255,255,255,.10); color: #fff; border: 1px solid rgba(255,255,255,.30);
+      backdrop-filter: blur(6px); transition: background .25s, transform .25s;
     }
+    .btn-ghost:hover { background: rgba(255,255,255,.20); transform: translateY(-2px); }
+
+    /* AOS easing */
+    [data-aos] { transition-timing-function: cubic-bezier(.22,1,.36,1) !important; }
 
     @media (max-width: 767px) {
       .gallery-grid { columns: 2; }
-      .map-wrap { padding-bottom: 65%; }
+      .map-wrap { padding-bottom: 75%; }
+      .team-photo { width: 140px; height: 140px; }
     }
     @media (max-width: 480px) {
       .gallery-grid { columns: 1; }
@@ -115,196 +149,166 @@
   <script src="translations.js"></script>
 </head>
 
-<body class="font-sans text-gray-700 bg-white antialiased" x-cloak>
+<body class="font-sans text-bark bg-white">
 
-<!-- ══════════════════════════════════════════
-     NAVBAR
-══════════════════════════════════════════ -->
-<header
-  class="fixed top-0 inset-x-0 z-50 transition-all duration-300"
-  :class="scrolled ? 'nav-scrolled' : 'bg-transparent'"
->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16 md:h-20">
+<!-- ══════════ NAVBAR ══════════ -->
+<header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-500 bg-transparent">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+    <div class="flex items-center justify-between h-[72px] md:h-20">
 
       <a href="#" class="flex-shrink-0">
-        <img src="images/logo_white2.png" alt="North Orava Cutting Horses" class="h-10 md:h-12 w-auto">
+        <img src="images/logo_white2.png" alt="North Orava Cutting Horses" class="h-9 md:h-11 w-auto">
       </a>
 
-      <nav class="hidden md:flex items-center gap-7">
-        <a href="#feat"         class="text-white/85 hover:text-white text-sm font-medium tracking-wide transition-colors" data-i18n="navbar_services">Ponúkame</a>
-        <a href="#about"        class="text-white/85 hover:text-white text-sm font-medium tracking-wide transition-colors" data-i18n="navbar_about">O nás</a>
-        <a href="#cutting"      class="text-white/85 hover:text-white text-sm font-medium tracking-wide transition-colors" data-i18n="navbar_cutting">Cutting</a>
-        <a href="#photos"       class="text-white/85 hover:text-white text-sm font-medium tracking-wide transition-colors" data-i18n="navbar_gallery">Galéria</a>
-        <a href="#accomodation" class="text-white/85 hover:text-white text-sm font-medium tracking-wide transition-colors" data-i18n="navbar_accommodation">Ubytovanie</a>
-        <a href="#team"         class="text-white/85 hover:text-white text-sm font-medium tracking-wide transition-colors" data-i18n="navbar_contact">Kontakt</a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#feat"         class="text-white/80 hover:text-white text-[13px] font-medium tracking-wide transition-colors" data-i18n="navbar_services">Ponúkame</a>
+        <a href="#about"        class="text-white/80 hover:text-white text-[13px] font-medium tracking-wide transition-colors" data-i18n="navbar_about">O nás</a>
+        <a href="#cutting"      class="text-white/80 hover:text-white text-[13px] font-medium tracking-wide transition-colors" data-i18n="navbar_cutting">Cutting</a>
+        <a href="#photos"       class="text-white/80 hover:text-white text-[13px] font-medium tracking-wide transition-colors" data-i18n="navbar_gallery">Galéria</a>
+        <a href="#accomodation" class="text-white/80 hover:text-white text-[13px] font-medium tracking-wide transition-colors" data-i18n="navbar_accommodation">Ubytovanie</a>
       </nav>
 
       <div class="flex items-center gap-4">
-        <div class="flex items-center gap-0.5 text-sm font-medium">
-          <a href="?lang=sk" data-lang-btn="sk" class="px-2.5 py-1 rounded text-white bg-white/20 font-semibold transition-colors">SK</a>
-          <a href="?lang=en" data-lang-btn="en" class="px-2.5 py-1 rounded text-white/65 hover:text-white transition-colors">EN</a>
-          <a href="?lang=de" data-lang-btn="de" class="px-2.5 py-1 rounded text-white/65 hover:text-white transition-colors">DE</a>
-          <a href="?lang=pl" data-lang-btn="pl" class="px-2.5 py-1 rounded text-white/65 hover:text-white transition-colors">PL</a>
+        <a href="#team" class="hidden md:inline-flex items-center px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-sm text-white text-[13px] font-medium transition-all hover:-translate-y-0.5" data-i18n="navbar_contact">Kontakt</a>
+
+        <div class="hidden sm:flex items-center gap-0.5 text-[13px] font-medium">
+          <a href="?lang=sk" data-lang-btn="sk" class="px-2 py-1 rounded text-white bg-white/20 font-semibold transition-colors">SK</a>
+          <a href="?lang=en" data-lang-btn="en" class="px-2 py-1 rounded text-white/60 hover:text-white transition-colors">EN</a>
+          <a href="?lang=de" data-lang-btn="de" class="px-2 py-1 rounded text-white/60 hover:text-white transition-colors">DE</a>
+          <a href="?lang=pl" data-lang-btn="pl" class="px-2 py-1 rounded text-white/60 hover:text-white transition-colors">PL</a>
         </div>
 
-        <button @click="mobileOpen = !mobileOpen" class="md:hidden text-white p-1" aria-label="Menu">
-          <svg x-show="!mobileOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-          <svg x-show="mobileOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
+        <button id="menuBtn" class="md:hidden text-white p-1" aria-label="Menu" aria-expanded="false">
+          <svg id="menuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg id="menuClose" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
     </div>
   </div>
 
   <!-- Mobile menu -->
-  <div
-    x-show="mobileOpen"
-    x-transition:enter="transition ease-out duration-200"
-    x-transition:enter-start="opacity-0 -translate-y-2"
-    x-transition:enter-end="opacity-100 translate-y-0"
-    x-transition:leave="transition ease-in duration-150"
-    x-transition:leave-start="opacity-100 translate-y-0"
-    x-transition:leave-end="opacity-0 -translate-y-2"
-    class="md:hidden bg-forest-900/97 backdrop-blur-md"
-  >
-    <nav class="px-5 py-4 flex flex-col gap-0.5">
-      <a @click="mobileOpen=false" href="#feat"         class="text-white/90 hover:text-white py-2.5 text-sm font-medium border-b border-white/10" data-i18n="navbar_services">Ponúkame</a>
-      <a @click="mobileOpen=false" href="#about"        class="text-white/90 hover:text-white py-2.5 text-sm font-medium border-b border-white/10" data-i18n="navbar_about">O nás</a>
-      <a @click="mobileOpen=false" href="#cutting"      class="text-white/90 hover:text-white py-2.5 text-sm font-medium border-b border-white/10" data-i18n="navbar_cutting">Cutting</a>
-      <a @click="mobileOpen=false" href="#photos"       class="text-white/90 hover:text-white py-2.5 text-sm font-medium border-b border-white/10" data-i18n="navbar_gallery">Galéria</a>
-      <a @click="mobileOpen=false" href="#accomodation" class="text-white/90 hover:text-white py-2.5 text-sm font-medium border-b border-white/10" data-i18n="navbar_accommodation">Ubytovanie</a>
-      <a @click="mobileOpen=false" href="#team"         class="text-white/90 hover:text-white py-2.5 text-sm font-medium" data-i18n="navbar_contact">Kontakt</a>
+  <div id="mobileMenu" class="md:hidden bg-forest-900/97 backdrop-blur-md hidden">
+    <nav class="px-6 py-4 flex flex-col">
+      <a href="#feat"         class="mobile-link text-white/90 hover:text-white py-3 text-sm font-medium border-b border-white/10" data-i18n="navbar_services">Ponúkame</a>
+      <a href="#about"        class="mobile-link text-white/90 hover:text-white py-3 text-sm font-medium border-b border-white/10" data-i18n="navbar_about">O nás</a>
+      <a href="#cutting"      class="mobile-link text-white/90 hover:text-white py-3 text-sm font-medium border-b border-white/10" data-i18n="navbar_cutting">Cutting</a>
+      <a href="#photos"       class="mobile-link text-white/90 hover:text-white py-3 text-sm font-medium border-b border-white/10" data-i18n="navbar_gallery">Galéria</a>
+      <a href="#accomodation" class="mobile-link text-white/90 hover:text-white py-3 text-sm font-medium border-b border-white/10" data-i18n="navbar_accommodation">Ubytovanie</a>
+      <a href="#team"         class="mobile-link text-white/90 hover:text-white py-3 text-sm font-medium" data-i18n="navbar_contact">Kontakt</a>
     </nav>
-    <div class="px-5 py-3 border-t border-white/10 flex gap-2">
+    <div class="px-6 py-3 border-t border-white/10 flex gap-2">
       <a href="?lang=sk" data-lang-btn="sk" class="px-3 py-1.5 rounded text-white bg-white/20 font-semibold text-sm transition-colors">SK</a>
-      <a href="?lang=en" data-lang-btn="en" class="px-3 py-1.5 rounded text-white/65 hover:text-white text-sm transition-colors">EN</a>
-      <a href="?lang=de" data-lang-btn="de" class="px-3 py-1.5 rounded text-white/65 hover:text-white text-sm transition-colors">DE</a>
-      <a href="?lang=pl" data-lang-btn="pl" class="px-3 py-1.5 rounded text-white/65 hover:text-white text-sm transition-colors">PL</a>
+      <a href="?lang=en" data-lang-btn="en" class="px-3 py-1.5 rounded text-white/60 hover:text-white text-sm transition-colors">EN</a>
+      <a href="?lang=de" data-lang-btn="de" class="px-3 py-1.5 rounded text-white/60 hover:text-white text-sm transition-colors">DE</a>
+      <a href="?lang=pl" data-lang-btn="pl" class="px-3 py-1.5 rounded text-white/60 hover:text-white text-sm transition-colors">PL</a>
     </div>
   </div>
 </header>
 
 
-<!-- ══════════════════════════════════════════
-     HERO
-══════════════════════════════════════════ -->
-<section class="relative h-screen min-h-[620px] flex items-center justify-center overflow-hidden">
-  <img
-    src="images/carousel/11.webp"
-    alt="North Orava Cutting Horses ranč"
-    class="absolute inset-0 w-full h-full object-cover"
-  >
-  <div class="hero-overlay absolute inset-0"></div>
+<!-- ══════════ HERO ══════════ -->
+<section class="relative h-screen min-h-[640px] flex items-end overflow-hidden">
+  <div class="hero-bg absolute inset-0 z-0" id="heroBg">
+    <img src="images/carousel/11.webp" alt="North Orava Cutting Horses ranč" class="hero-zoom w-full h-[118%] object-cover">
+  </div>
+  <div class="hero-overlay absolute inset-0 z-0"></div>
 
-  <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-    <p class="text-xs uppercase tracking-[.35em] text-white/65 mb-5 font-medium"
-       data-aos="fade-up" data-aos-delay="80" data-i18n="hero_location">
-      Severné Slovensko &nbsp;·&nbsp; Orava
-    </p>
-    <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-6"
-        data-aos="fade-up" data-aos-delay="180">
-      North Orava<br>Cutting Horses
-    </h1>
-    <p class="text-base sm:text-lg md:text-xl text-white/75 max-w-2xl mx-auto mb-10 font-light leading-relaxed"
-       data-aos="fade-up" data-aos-delay="280" data-i18n="hero_subtitle">
-      Cuttingový ranč v srdci Oravskej prírody. Tréning koní, jazdecké kurzy a ubytovanie.
-    </p>
-    <div class="flex flex-wrap gap-3 justify-center" data-aos="fade-up" data-aos-delay="380">
-      <a href="#feat"
-         class="px-8 py-3.5 bg-forest-600 hover:bg-forest-500 text-white font-medium rounded-full transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 text-sm"
-         data-i18n="hero_btn_more">
-        Zistiť viac
-      </a>
-      <a href="#team"
-         class="px-8 py-3.5 bg-white/12 hover:bg-white/22 text-white font-medium rounded-full border border-white/25 backdrop-blur-sm transition-all duration-200 text-sm"
-         data-i18n="hero_btn_contact">
-        Kontakt
-      </a>
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 pb-24 md:pb-28">
+    <div class="max-w-3xl">
+      <p class="eyebrow on-dark mb-6" data-aos="fade-up" data-aos-delay="100">
+        <span data-i18n="hero_kicker">Cuttingový ranč · od 2010</span>
+      </p>
+      <h1 class="hero-title font-serif text-white font-bold leading-[.98] text-[clamp(2.8rem,8vw,6.5rem)] mb-7" data-aos="fade-up" data-aos-delay="180">
+        North&nbsp;Orava<br><span class="text-forest-200/95">Cutting Horses</span>
+      </h1>
+      <p class="text-white/80 text-lg md:text-xl font-light leading-relaxed max-w-xl mb-10" data-aos="fade-up" data-aos-delay="280" data-i18n="hero_subtitle">
+        Cuttingový ranč v srdci Oravskej prírody. Tréning koní, jazdecké kurzy a ubytovanie.
+      </p>
+      <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="380">
+        <a href="#feat"  class="btn-primary px-8 py-4 rounded-full font-semibold text-sm tracking-wide" data-i18n="hero_btn_more">Zistiť viac</a>
+        <a href="#team"  class="btn-ghost px-8 py-4 rounded-full font-semibold text-sm tracking-wide" data-i18n="hero_btn_contact">Kontakt</a>
+      </div>
     </div>
   </div>
 
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 animate-bounce" data-aos="fade-up" data-aos-delay="600">
-    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-    </svg>
-  </div>
+  <!-- scroll indicator -->
+  <a href="#feat" class="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 group">
+    <span class="text-white/50 text-[10px] uppercase tracking-eyebrow group-hover:text-white/80 transition-colors" data-i18n="hero_scroll">Posuňte sa nižšie</span>
+    <span class="w-6 h-10 rounded-full border border-white/30 flex justify-center pt-2">
+      <span class="scroll-dot w-1 h-1 rounded-full bg-white/80"></span>
+    </span>
+  </a>
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     SERVICES
-══════════════════════════════════════════ -->
-<section id="feat" class="py-20 md:py-28 bg-cream">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- ══════════ SERVICES ══════════ -->
+<section id="feat" class="py-24 md:py-36 bg-cream">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
 
-    <div class="text-center mb-16" data-aos="fade-up">
-      <p class="text-forest-500 text-xs uppercase tracking-[.25em] font-semibold mb-3" data-i18n="services_label">Čo ponúkame</p>
-      <h2 class="font-serif text-4xl md:text-5xl text-gray-700" data-i18n="services_title">Naše služby</h2>
+    <div class="max-w-2xl mb-16 md:mb-20" data-aos="fade-up">
+      <p class="eyebrow mb-5" data-i18n="services_label">Čo ponúkame</p>
+      <h2 class="font-serif text-4xl md:text-6xl font-bold text-forest-900 leading-[1.02]" data-i18n="services_title">Naše služby</h2>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
 
-      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-350 hover:-translate-y-1.5 group" data-aos="fade-up" data-aos-delay="0">
-        <div class="overflow-hidden h-52">
-          <img src="images/trening.webp" alt="Tréning" class="service-img w-full h-full object-cover transition-transform duration-500">
-        </div>
-        <div class="p-6">
-          <h3 class="font-serif text-xl font-semibold text-gray-700 mb-3" data-i18n="service_training">Tréning</h3>
-          <p class="text-gray-500 text-sm leading-relaxed" data-i18n="service_training_desc">Ponúkame tréning cuttingových koní a taktiež tréning Non Pro jazdcov, sprostredkovanie a poradenstvo pri nákupe a predaji koní. Ceny na vyžiadanie po telefóne.</p>
+      <!-- 01 Training -->
+      <div class="card group relative bg-white rounded-[20px] overflow-hidden shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.35)] transition-shadow duration-500" data-aos="fade-up">
+        <div class="overflow-hidden h-56"><img src="images/trening.webp" alt="Tréning" class="card-img w-full h-full object-cover"></div>
+        <span class="absolute top-4 left-4 font-serif text-xs font-semibold text-white/90 tracking-widest bg-black/25 backdrop-blur-sm rounded-full px-3 py-1">01</span>
+        <div class="p-7">
+          <h3 class="font-serif text-2xl font-semibold text-forest-900 mb-3" data-i18n="service_training">Tréning</h3>
+          <p class="text-bark/55 text-[15px] leading-relaxed" data-i18n="service_training_desc">Ponúkame tréning cuttingových koní a taktiež tréning Non Pro jazdcov, sprostredkovanie a poradenstvo pri nákupe a predaji koní. Ceny na vyžiadanie po telefóne.</p>
         </div>
       </div>
 
-      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-350 hover:-translate-y-1.5 group" data-aos="fade-up" data-aos-delay="80">
-        <div class="overflow-hidden h-52">
-          <img src="images/americana.webp" alt="Showing" class="service-img w-full h-full object-cover transition-transform duration-500">
-        </div>
-        <div class="p-6">
-          <h3 class="font-serif text-xl font-semibold text-gray-700 mb-3" data-i18n="service_showing">Showing</h3>
-          <p class="text-gray-500 text-sm leading-relaxed" data-i18n="service_showing_desc">Pravidelne sa zúčastňujeme na cuttingových pretekoch v Maďarsku, Poľsku, Slovensku, Nemecku a Českej republike.</p>
-        </div>
-      </div>
-
-      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-350 hover:-translate-y-1.5 group" data-aos="fade-up" data-aos-delay="160">
-        <div class="overflow-hidden h-52">
-          <img src="images/trail_riding.webp" alt="Výchádzky" class="service-img w-full h-full object-cover transition-transform duration-500">
-        </div>
-        <div class="p-6">
-          <h3 class="font-serif text-xl font-semibold text-gray-700 mb-3" data-i18n="service_rides">Výchádzky</h3>
-          <p class="text-gray-500 text-sm leading-relaxed" data-i18n-html="service_rides_desc">Spoznajte krásu hornooravskej prírody z toho najkrajšieho miesta — chrbta koňa. Viac na <a href="https://naokraji.sk" class="text-forest-600 hover:underline font-medium">naokraji.sk</a>.</p>
+      <!-- 02 Showing -->
+      <div class="card group relative bg-white rounded-[20px] overflow-hidden shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.35)] transition-shadow duration-500" data-aos="fade-up" data-aos-delay="80">
+        <div class="overflow-hidden h-56"><img src="images/americana.webp" alt="Showing" class="card-img w-full h-full object-cover"></div>
+        <span class="absolute top-4 left-4 font-serif text-xs font-semibold text-white/90 tracking-widest bg-black/25 backdrop-blur-sm rounded-full px-3 py-1">02</span>
+        <div class="p-7">
+          <h3 class="font-serif text-2xl font-semibold text-forest-900 mb-3" data-i18n="service_showing">Showing</h3>
+          <p class="text-bark/55 text-[15px] leading-relaxed" data-i18n="service_showing_desc">Pravidelne sa zúčastňujeme na cuttingových pretekoch v Maďarsku, Poľsku, Slovensku, Nemecku a Českej republike.</p>
         </div>
       </div>
 
-      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-350 hover:-translate-y-1.5 group" data-aos="fade-up" data-aos-delay="0">
-        <div class="overflow-hidden h-52">
-          <img src="images/North-Orava-Cutting-50.webp" alt="Ubytovanie" class="service-img w-full h-full object-cover transition-transform duration-500">
-        </div>
-        <div class="p-6">
-          <h3 class="font-serif text-xl font-semibold text-gray-700 mb-3" data-i18n="service_accommodation">Ubytovanie</h3>
-          <p class="text-gray-500 text-sm leading-relaxed" data-i18n-html="service_accommodation_desc">Domček priamo na ranči s kapacitou pre 8 ľudí, ideálny pre tých, čo hľadajú pokoj v prírode. Viac na <a href="https://naokraji.sk" class="text-forest-600 hover:underline font-medium">naokraji.sk</a>.</p>
-        </div>
-      </div>
-
-      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-350 hover:-translate-y-1.5 group" data-aos="fade-up" data-aos-delay="80">
-        <div class="overflow-hidden h-52">
-          <img src="images/courses5.webp" alt="Kurzy jazdenia" class="service-img w-full h-full object-cover transition-transform duration-500">
-        </div>
-        <div class="p-6">
-          <h3 class="font-serif text-xl font-semibold text-gray-700 mb-3" data-i18n="service_courses">Kurzy jazdenia</h3>
-          <p class="text-gray-500 text-sm leading-relaxed" data-i18n-html="service_courses_desc">Jazdecké hodiny a kurzy pre pokročilých i začiatočníkov so skúseným inštruktorom počas celého roka. Viac na <a href="https://naokraji.sk" class="text-forest-600 hover:underline font-medium">naokraji.sk</a>.</p>
+      <!-- 03 Trail riding -->
+      <div class="card group relative bg-white rounded-[20px] overflow-hidden shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.35)] transition-shadow duration-500" data-aos="fade-up" data-aos-delay="160">
+        <div class="overflow-hidden h-56"><img src="images/trail_riding.webp" alt="Výchádzky" class="card-img w-full h-full object-cover"></div>
+        <span class="absolute top-4 left-4 font-serif text-xs font-semibold text-white/90 tracking-widest bg-black/25 backdrop-blur-sm rounded-full px-3 py-1">03</span>
+        <div class="p-7">
+          <h3 class="font-serif text-2xl font-semibold text-forest-900 mb-3" data-i18n="service_rides">Výchádzky</h3>
+          <p class="text-bark/55 text-[15px] leading-relaxed" data-i18n-html="service_rides_desc">Spoznajte krásu hornooravskej prírody z toho najkrajšieho miesta — chrbta koňa. Viac na <a href="https://naokraji.sk" class="text-forest-600 hover:underline font-medium">naokraji.sk</a>.</p>
         </div>
       </div>
 
-      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-350 hover:-translate-y-1.5 group" data-aos="fade-up" data-aos-delay="160">
-        <div class="overflow-hidden h-52">
-          <img src="images/North-Orava-Cutting-26.webp" alt="Ustajnenie" class="service-img w-full h-full object-cover transition-transform duration-500">
+      <!-- 04 Accommodation -->
+      <div class="card group relative bg-white rounded-[20px] overflow-hidden shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.35)] transition-shadow duration-500" data-aos="fade-up">
+        <div class="overflow-hidden h-56"><img src="images/North-Orava-Cutting-50.webp" alt="Ubytovanie" class="card-img w-full h-full object-cover"></div>
+        <span class="absolute top-4 left-4 font-serif text-xs font-semibold text-white/90 tracking-widest bg-black/25 backdrop-blur-sm rounded-full px-3 py-1">04</span>
+        <div class="p-7">
+          <h3 class="font-serif text-2xl font-semibold text-forest-900 mb-3" data-i18n="service_accommodation">Ubytovanie</h3>
+          <p class="text-bark/55 text-[15px] leading-relaxed" data-i18n-html="service_accommodation_desc">Domček priamo na ranči s kapacitou pre 8 ľudí, ideálny pre tých, čo hľadajú pokoj v prírode. Viac na <a href="https://naokraji.sk" class="text-forest-600 hover:underline font-medium">naokraji.sk</a>.</p>
         </div>
-        <div class="p-6">
-          <h3 class="font-serif text-xl font-semibold text-gray-700 mb-3" data-i18n="service_stabling">Ustajnenie</h3>
-          <p class="text-gray-500 text-sm leading-relaxed" data-i18n="service_stabling_desc">Ponúkame ustajnenie koní: 22 boxov, pastviny s veľkosťou 12 ha. Ceny na vyžiadanie po telefóne.</p>
+      </div>
+
+      <!-- 05 Courses -->
+      <div class="card group relative bg-white rounded-[20px] overflow-hidden shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.35)] transition-shadow duration-500" data-aos="fade-up" data-aos-delay="80">
+        <div class="overflow-hidden h-56"><img src="images/courses5.webp" alt="Kurzy jazdenia" class="card-img w-full h-full object-cover"></div>
+        <span class="absolute top-4 left-4 font-serif text-xs font-semibold text-white/90 tracking-widest bg-black/25 backdrop-blur-sm rounded-full px-3 py-1">05</span>
+        <div class="p-7">
+          <h3 class="font-serif text-2xl font-semibold text-forest-900 mb-3" data-i18n="service_courses">Kurzy jazdenia</h3>
+          <p class="text-bark/55 text-[15px] leading-relaxed" data-i18n-html="service_courses_desc">Jazdecké hodiny a kurzy pre pokročilých i začiatočníkov so skúseným inštruktorom počas celého roka. Viac na <a href="https://naokraji.sk" class="text-forest-600 hover:underline font-medium">naokraji.sk</a>.</p>
+        </div>
+      </div>
+
+      <!-- 06 Stabling -->
+      <div class="card group relative bg-white rounded-[20px] overflow-hidden shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.35)] transition-shadow duration-500" data-aos="fade-up" data-aos-delay="160">
+        <div class="overflow-hidden h-56"><img src="images/North-Orava-Cutting-26.webp" alt="Ustajnenie" class="card-img w-full h-full object-cover"></div>
+        <span class="absolute top-4 left-4 font-serif text-xs font-semibold text-white/90 tracking-widest bg-black/25 backdrop-blur-sm rounded-full px-3 py-1">06</span>
+        <div class="p-7">
+          <h3 class="font-serif text-2xl font-semibold text-forest-900 mb-3" data-i18n="service_stabling">Ustajnenie</h3>
+          <p class="text-bark/55 text-[15px] leading-relaxed" data-i18n="service_stabling_desc">Ponúkame ustajnenie koní: 22 boxov, pastviny s veľkosťou 12 ha. Ceny na vyžiadanie po telefóne.</p>
         </div>
       </div>
 
@@ -313,48 +317,40 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     ABOUT
-══════════════════════════════════════════ -->
-<section id="about" class="py-20 md:py-28 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about" class="py-24 md:py-36 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-      <div data-aos="fade-right">
-        <div class="rounded-2xl overflow-hidden shadow-2xl aspect-video">
-          <iframe
-            class="w-full h-full"
-            src="https://www.youtube.com/embed/TpNorY6CaBI"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+      <div class="lg:col-span-6" data-aos="fade-right">
+        <div class="rounded-[20px] overflow-hidden shadow-[0_40px_80px_-30px_rgba(33,24,15,.5)] aspect-video ring-1 ring-bark/5">
+          <iframe class="w-full h-full" src="https://www.youtube.com/embed/TpNorY6CaBI" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
 
-      <div data-aos="fade-left">
-        <p class="text-forest-500 text-xs uppercase tracking-[.25em] font-semibold mb-3" data-i18n="about_label">Náš ranč</p>
-        <h2 class="font-serif text-4xl md:text-5xl text-gray-700 mb-5" data-i18n="about_title">O nás</h2>
-        <div class="w-14 h-0.5 bg-forest-400 mb-7"></div>
-        <p class="text-gray-500 leading-relaxed mb-5" data-i18n="about_desc1">
+      <div class="lg:col-span-6 lg:pl-6" data-aos="fade-left">
+        <p class="eyebrow mb-5" data-i18n="about_label">Náš ranč</p>
+        <h2 class="font-serif text-4xl md:text-6xl font-bold text-forest-900 leading-[1.02] mb-7" data-i18n="about_title">O nás</h2>
+        <p class="text-bark/65 leading-relaxed text-[17px] mb-5" data-i18n="about_desc1">
           Sme cuttingový ranč nachádzajúci sa na severe Slovenska v krásnej Oravskej prírode. Venujeme sa chovu, tréningu a súťažnému predvádzaniu koní.
         </p>
-        <p class="text-gray-500 leading-relaxed mb-8" data-i18n-html="about_desc2">
+        <p class="text-bark/55 leading-relaxed mb-9" data-i18n-html="about_desc2">
           Náš areál je vybavený jazdeckou krytou halou (dokončená 2010) s rozmermi 25×40 m, sedlovňou, spoločenskou miestnosťou, stajňou s kapacitou 22 boxov a vonkajšími prístreškami. Ďalšie informácie nájdete na <a href="https://naokraji.sk" class="text-forest-600 font-medium hover:underline">naokraji.sk</a>.
         </p>
 
-        <div class="grid grid-cols-3 gap-4 pt-6 border-t border-gray-100">
-          <div class="text-center">
-            <p class="font-serif text-2xl md:text-3xl font-bold text-forest-700">25×40 m</p>
-            <p class="text-xs text-gray-400 mt-1 leading-snug" data-i18n="about_stat_arena">Jazdecká hala</p>
+        <div class="grid grid-cols-3 gap-2 pt-8 border-t border-bark/10">
+          <div>
+            <p class="font-serif text-3xl md:text-4xl font-bold text-forest-700 leading-none">25×40<span class="text-lg align-top">m</span></p>
+            <p class="text-xs text-bark/40 mt-2 uppercase tracking-wide" data-i18n="about_stat_arena">Jazdecká hala</p>
           </div>
-          <div class="text-center border-x border-gray-100">
-            <p class="font-serif text-2xl md:text-3xl font-bold text-forest-700">22</p>
-            <p class="text-xs text-gray-400 mt-1 leading-snug" data-i18n="about_stat_stalls">Boxy pre kone</p>
+          <div class="px-1 border-x border-bark/10">
+            <p class="font-serif text-3xl md:text-4xl font-bold text-forest-700 leading-none">22</p>
+            <p class="text-xs text-bark/40 mt-2 uppercase tracking-wide" data-i18n="about_stat_stalls">Boxy pre kone</p>
           </div>
-          <div class="text-center">
-            <p class="font-serif text-2xl md:text-3xl font-bold text-forest-700">12 ha</p>
-            <p class="text-xs text-gray-400 mt-1 leading-snug" data-i18n="about_stat_pastures">Pastviny</p>
+          <div class="pl-1">
+            <p class="font-serif text-3xl md:text-4xl font-bold text-forest-700 leading-none">12<span class="text-lg align-top">ha</span></p>
+            <p class="text-xs text-bark/40 mt-2 uppercase tracking-wide" data-i18n="about_stat_pastures">Pastviny</p>
           </div>
         </div>
       </div>
@@ -364,48 +360,62 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     CUTTING
-══════════════════════════════════════════ -->
-<section id="cutting" class="relative py-20 md:py-28 bg-forest-900 text-white overflow-hidden">
-  <div class="absolute inset-0 opacity-[.07]">
-    <img src="images/North-Orava-Cutting-04-3.webp" alt="" class="w-full h-full object-cover">
-  </div>
+<!-- ══════════ CUTTING ══════════ -->
+<section id="cutting" class="relative py-24 md:py-36 bg-forest-900 text-white overflow-hidden">
+  <div class="absolute inset-0 opacity-[.10]"><img src="images/North-Orava-Cutting-04-3.webp" alt="" class="w-full h-full object-cover"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-forest-900 via-forest-900/70 to-forest-900"></div>
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+  <div class="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-      <div data-aos="fade-right">
-        <p class="text-forest-300 text-xs uppercase tracking-[.25em] font-semibold mb-3" data-i18n="cutting_label">Westernová disciplína</p>
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-5" data-i18n="cutting_title">Cutting</h2>
-        <div class="w-14 h-0.5 bg-forest-400 mb-8"></div>
-        <div class="space-y-5 text-white/70 leading-relaxed text-[15px]">
+      <div class="lg:col-span-6" data-aos="fade-right">
+        <p class="eyebrow on-dark mb-5" data-i18n="cutting_label">Westernová disciplína</p>
+        <h2 class="font-serif text-4xl md:text-6xl font-bold leading-[1.02] mb-7" data-i18n="cutting_title">Cutting</h2>
+
+        <div class="space-y-5 text-white/65 leading-relaxed text-[15px] max-w-xl">
           <p data-i18n="cutting_desc1">Westernová jazdecká disciplína, v ktorej je jazdec a jeho kôň hodnotený na základe predvedenej schopnosti oddeliť jeden kus dobytka od stáda a udržať ho v dostatočnej vzdialenosti na krátky časový úsek. Jazdec má v jednom kole časový limit 2:30 minúty.</p>
-          <p data-i18n-html="cutting_desc2">Pre cutting sú charakteristické špeciálne šľachtené kone plemena Quarter Horse — hlavne pre svoj vyvinutý <em class="text-white/90">cowsense</em>, schopnosť inštinktívne a prirodzene pracovať s kravou. Táto schopnosť sa ďalej rozvíja tréningom až do štádia, kedy kôň v show situácii samostatne pracuje bez použitia oťaží.</p>
-          <p data-i18n="cutting_desc3">Cutting zastrešuje organizácia NCHA (National Cutting Horse Association), ktorá vznikla v roku 1946 a má cez 17&thinsp;500 členov. Každý rok sa koná viac ako 2&thinsp;200 podujatí po celom svete.</p>
+          <p data-i18n-html="cutting_desc2">Pre cutting sú charakteristické špeciálne šľachtené kone plemena Quarter Horse — hlavne pre svoj vyvinutý <em class="text-white/90 not-italic font-medium">cowsense</em>, schopnosť inštinktívne a prirodzene pracovať s kravou. Táto schopnosť sa ďalej rozvíja tréningom až do štádia, kedy kôň v show situácii samostatne pracuje bez použitia oťaží.</p>
+          <p data-i18n="cutting_desc3">Cutting zastrešuje organizácia NCHA (National Cutting Horse Association), ktorá vznikla v roku 1946 a má cez 17 500 členov. Každý rok sa koná viac ako 2 200 podujatí po celom svete.</p>
         </div>
       </div>
 
-      <div data-aos="fade-left">
-        <div class="rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+      <div class="lg:col-span-6" data-aos="fade-left">
+        <div class="relative rounded-[20px] overflow-hidden shadow-2xl ring-1 ring-white/10">
           <img src="images/duliak2.webp" alt="Cutting horse" class="w-full h-auto object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-transparent to-transparent"></div>
+          <blockquote class="absolute bottom-0 left-0 right-0 p-7 md:p-8">
+            <p class="font-serif text-xl md:text-2xl font-medium leading-snug text-white" data-i18n="cutting_quote">Kôň pracuje s kravou sám — bez oťaží, len na cit.</p>
+          </blockquote>
         </div>
       </div>
+    </div>
 
+    <!-- Stats row -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-6 mt-16 md:mt-24 pt-12 border-t border-white/12" data-aos="fade-up">
+      <div class="text-center sm:text-left">
+        <p class="font-serif text-5xl md:text-6xl font-bold text-sand leading-none"><span class="stat" data-count="1946">1946</span></p>
+        <p class="text-white/55 text-sm mt-3 uppercase tracking-wide" data-i18n="cutting_stat_founded">Vznik NCHA</p>
+      </div>
+      <div class="text-center sm:text-left sm:border-x border-white/12 sm:px-8">
+        <p class="font-serif text-5xl md:text-6xl font-bold text-sand leading-none"><span class="stat" data-count="17500" data-sep="1">17 500</span><span>+</span></p>
+        <p class="text-white/55 text-sm mt-3 uppercase tracking-wide" data-i18n="cutting_stat_members">Členov po celom svete</p>
+      </div>
+      <div class="text-center sm:text-left">
+        <p class="font-serif text-5xl md:text-6xl font-bold text-sand leading-none"><span class="stat" data-count="2200" data-sep="1">2 200</span><span>+</span></p>
+        <p class="text-white/55 text-sm mt-3 uppercase tracking-wide" data-i18n="cutting_stat_events">Podujatí ročne</p>
+      </div>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     GALLERY
-══════════════════════════════════════════ -->
-<section id="photos" class="py-20 md:py-28 bg-cream">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- ══════════ GALLERY ══════════ -->
+<section id="photos" class="py-24 md:py-36 bg-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
 
-    <div class="text-center mb-14" data-aos="fade-up">
-      <p class="text-forest-500 text-xs uppercase tracking-[.25em] font-semibold mb-3" data-i18n="gallery_label">Náš areál</p>
-      <h2 class="font-serif text-4xl md:text-5xl text-gray-700" data-i18n="gallery_title">Galéria</h2>
+    <div class="max-w-2xl mb-14 md:mb-16" data-aos="fade-up">
+      <p class="eyebrow mb-5" data-i18n="gallery_label">Náš areál</p>
+      <h2 class="font-serif text-4xl md:text-6xl font-bold text-forest-900 leading-[1.02]" data-i18n="gallery_title">Galéria</h2>
     </div>
 
     <div class="gallery-grid" data-aos="fade-up" data-aos-delay="80">
@@ -424,96 +434,119 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     FACEBOOK / NEWS
-══════════════════════════════════════════ -->
-<section id="news" class="py-16 bg-white border-t border-gray-100">
-  <div class="max-w-2xl mx-auto px-4 text-center" data-aos="fade-up">
-    <p class="text-forest-500 text-xs uppercase tracking-[.25em] font-semibold mb-3" data-i18n="news_label">Sledujte nás</p>
-    <h2 class="font-serif text-3xl md:text-4xl text-gray-700 mb-4" data-i18n="news_title">Novinky na Facebooku</h2>
-    <p class="text-gray-400 text-sm mb-8 leading-relaxed" data-i18n="news_desc">Všetky novinky, fotky a aktuálne informácie nájdete na našej Facebook stránke.</p>
-    <a
-      href="https://www.facebook.com/NorthOravaCuttingHorses/"
-      target="_blank" rel="noopener"
-      class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#1877F2] hover:bg-[#1569d8] text-white text-sm font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
-    >
-      <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-      </svg>
-      <span data-i18n="news_btn">Navštíviť Facebook stránku</span>
-    </a>
+<!-- ══════════ NEWS / FACEBOOK ══════════ -->
+<section id="news" class="py-24 md:py-32 bg-cream border-t border-bark/5">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+    <div class="text-center max-w-2xl mx-auto mb-14" data-aos="fade-up">
+      <p class="eyebrow mb-5" style="justify-content:center" data-i18n="news_label">Sledujte nás</p>
+      <h2 class="font-serif text-3xl md:text-5xl font-bold text-forest-900 mb-4" data-i18n="social_title">Sledujte nás online</h2>
+      <p class="text-bark/50 leading-relaxed" data-i18n="social_desc">Najnovšie fotky, videá a novinky z ranča nájdete na našich sociálnych sieťach.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-7">
+
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/NorthOravaCuttingHorses/" target="_blank" rel="noopener"
+         class="card group relative rounded-[20px] overflow-hidden h-80 shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.4)] transition-shadow duration-500 block">
+        <img src="images/carousel/13.webp" alt="" class="card-img absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-bark/85 via-bark/20 to-transparent"></div>
+        <span class="absolute top-4 left-4 w-11 h-11 rounded-full bg-[#1877F2] text-white flex items-center justify-center shadow-lg">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </span>
+        <div class="absolute bottom-0 inset-x-0 p-6 text-white">
+          <p class="text-[11px] uppercase tracking-eyebrow text-white/70 mb-1.5" data-i18n="social_fb_tag">Facebook stránka</p>
+          <p class="font-serif text-xl font-semibold leading-tight mb-3" data-i18n="social_fb_handle">North Orava Cutting Horses</p>
+          <span class="inline-flex items-center gap-2 text-sm font-semibold">
+            <span data-i18n="social_follow">Sledovať</span>
+            <svg class="card-arrow w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Instagram – noc_horses -->
+      <a href="https://www.instagram.com/noc_horses/" target="_blank" rel="noopener"
+         class="card group relative rounded-[20px] overflow-hidden h-80 shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.4)] transition-shadow duration-500 block">
+        <img src="images/carousel/1.webp" alt="" class="card-img absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-bark/85 via-bark/20 to-transparent"></div>
+        <span class="absolute top-4 left-4 w-11 h-11 rounded-full text-white flex items-center justify-center shadow-lg" style="background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888)">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </span>
+        <div class="absolute bottom-0 inset-x-0 p-6 text-white">
+          <p class="text-[11px] uppercase tracking-eyebrow text-white/70 mb-1.5" data-i18n="social_ig1_tag">Instagram · ranč</p>
+          <p class="font-serif text-xl font-semibold leading-tight mb-3">@noc_horses</p>
+          <span class="inline-flex items-center gap-2 text-sm font-semibold">
+            <span data-i18n="social_follow">Sledovať</span>
+            <svg class="card-arrow w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Instagram – noch_training -->
+      <a href="https://www.instagram.com/noch_training/" target="_blank" rel="noopener"
+         class="card group relative rounded-[20px] overflow-hidden h-80 shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.4)] transition-shadow duration-500 block">
+        <img src="images/carousel/8.webp" alt="" class="card-img absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-bark/85 via-bark/20 to-transparent"></div>
+        <span class="absolute top-4 left-4 w-11 h-11 rounded-full text-white flex items-center justify-center shadow-lg" style="background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888)">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </span>
+        <div class="absolute bottom-0 inset-x-0 p-6 text-white">
+          <p class="text-[11px] uppercase tracking-eyebrow text-white/70 mb-1.5" data-i18n="social_ig2_tag">Instagram · tréning</p>
+          <p class="font-serif text-xl font-semibold leading-tight mb-3">@noch_training</p>
+          <span class="inline-flex items-center gap-2 text-sm font-semibold">
+            <span data-i18n="social_follow">Sledovať</span>
+            <svg class="card-arrow w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </div>
+      </a>
+
+    </div>
   </div>
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     ACCOMMODATION
-══════════════════════════════════════════ -->
-<section id="accomodation" class="py-20 md:py-28 bg-cream">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- ══════════ ACCOMMODATION ══════════ -->
+<section id="accomodation" class="py-24 md:py-36 bg-white">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
 
-    <div class="text-center mb-14" data-aos="fade-up">
-      <p class="text-forest-500 text-xs uppercase tracking-[.25em] font-semibold mb-3" data-i18n="accom_label">Odpočinok v prírode</p>
-      <h2 class="font-serif text-4xl md:text-5xl text-gray-700" data-i18n="accom_title">Ubytovanie</h2>
-      <p class="text-gray-400 text-sm mt-4 max-w-xl mx-auto leading-relaxed" data-i18n-html="accom_desc">
+    <div class="text-center max-w-2xl mx-auto mb-14 md:mb-16" data-aos="fade-up">
+      <p class="eyebrow mb-5" style="justify-content:center" data-i18n="accom_label">Odpočinok v prírode</p>
+      <h2 class="font-serif text-4xl md:text-6xl font-bold text-forest-900 leading-[1.02]" data-i18n="accom_title">Ubytovanie</h2>
+      <p class="text-bark/50 mt-5 leading-relaxed" data-i18n-html="accom_desc">
         Priamo na ranči ponúkame dva typy ubytovania. Rezervácie a všetky detaily nájdete na <a href="https://naokraji.sk" target="_blank" class="text-forest-600 hover:underline font-medium">naokraji.sk</a>.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-aos="fade-up" data-aos-delay="80">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-7" data-aos="fade-up" data-aos-delay="80">
 
-      <!-- Maringotka -->
       <a href="https://www.naokraji.sk/accommodation/1" target="_blank" rel="noopener"
-         class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 block">
-        <div class="overflow-hidden h-60">
-          <img src="images/accomodation/maringotka.webp" alt="Maringotka na Okraji"
-               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]">
-        </div>
-        <div class="p-6">
-          <h3 class="font-serif text-xl font-semibold text-gray-700 mb-2" data-i18n="accom_maringotka_title">Maringotka na Okraji</h3>
-          <div class="flex flex-wrap gap-3 text-xs text-gray-400 mb-4">
-            <span class="flex items-center gap-1">
-              <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
-              <span data-i18n="accom_maringotka_people">1–4 ľudia</span>
-            </span>
-            <span class="flex items-center gap-1">
-              <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-              <span data-i18n="accom_maringotka_season">Máj – Október</span>
-            </span>
+         class="card group relative bg-white rounded-[20px] overflow-hidden shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.35)] transition-shadow duration-500 block">
+        <div class="overflow-hidden h-64"><img src="images/accomodation/maringotka.webp" alt="Maringotka na Okraji" class="card-img w-full h-full object-cover"></div>
+        <div class="p-7">
+          <h3 class="font-serif text-2xl font-semibold text-forest-900 mb-3" data-i18n="accom_maringotka_title">Maringotka na Okraji</h3>
+          <div class="flex flex-wrap gap-x-4 gap-y-2 text-[13px] text-bark/45 mb-5">
+            <span class="flex items-center gap-1.5"><svg class="w-4 h-4 shrink-0 text-forest-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg><span data-i18n="accom_maringotka_people">1–4 ľudia</span></span>
+            <span class="flex items-center gap-1.5"><svg class="w-4 h-4 shrink-0 text-forest-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span data-i18n="accom_maringotka_season">Máj – Október</span></span>
           </div>
-          <span class="inline-flex items-center gap-1.5 text-forest-600 text-sm font-medium group-hover:gap-2.5 transition-all">
+          <span class="inline-flex items-center gap-2 text-forest-600 text-sm font-semibold">
             <span data-i18n="accom_btn">Zobraziť a rezervovať</span>
-            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            <svg class="card-arrow w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </span>
         </div>
       </a>
 
-      <!-- Domček -->
       <a href="https://www.naokraji.sk/accommodation/2" target="_blank" rel="noopener"
-         class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 block">
-        <div class="overflow-hidden h-60">
-          <img src="images/accomodation/North-Orava-Cutting-34.webp" alt="Domček na Okraji"
-               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]">
-        </div>
-        <div class="p-6">
-          <h3 class="font-serif text-xl font-semibold text-gray-700 mb-2" data-i18n="accom_cottage_title">Domček na Okraji</h3>
-          <div class="flex flex-wrap gap-3 text-xs text-gray-400 mb-4">
-            <span class="flex items-center gap-1">
-              <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
-              <span data-i18n="accom_cottage_people">1–9 ľudí</span>
-            </span>
-            <span class="flex items-center gap-1">
-              <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-              <span data-i18n="accom_cottage_season">Celý rok</span>
-            </span>
-            <span class="flex items-center gap-1">
-              <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>
-              <span data-i18n="accom_cottage_wifi">WiFi · od 120€</span>
-            </span>
+         class="card group relative bg-white rounded-[20px] overflow-hidden shadow-[0_1px_3px_rgba(33,24,15,.06)] hover:shadow-[0_30px_60px_-25px_rgba(33,24,15,.35)] transition-shadow duration-500 block">
+        <div class="overflow-hidden h-64"><img src="images/accomodation/North-Orava-Cutting-34.webp" alt="Domček na Okraji" class="card-img w-full h-full object-cover"></div>
+        <div class="p-7">
+          <h3 class="font-serif text-2xl font-semibold text-forest-900 mb-3" data-i18n="accom_cottage_title">Domček na Okraji</h3>
+          <div class="flex flex-wrap gap-x-4 gap-y-2 text-[13px] text-bark/45 mb-5">
+            <span class="flex items-center gap-1.5"><svg class="w-4 h-4 shrink-0 text-forest-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg><span data-i18n="accom_cottage_people">1–9 ľudí</span></span>
+            <span class="flex items-center gap-1.5"><svg class="w-4 h-4 shrink-0 text-forest-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span data-i18n="accom_cottage_season">Celý rok</span></span>
+            <span class="flex items-center gap-1.5"><svg class="w-4 h-4 shrink-0 text-forest-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg><span data-i18n="accom_cottage_wifi">WiFi · od 120€</span></span>
           </div>
-          <span class="inline-flex items-center gap-1.5 text-forest-600 text-sm font-medium group-hover:gap-2.5 transition-all">
+          <span class="inline-flex items-center gap-2 text-forest-600 text-sm font-semibold">
             <span data-i18n="accom_btn">Zobraziť a rezervovať</span>
-            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            <svg class="card-arrow w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </span>
         </div>
       </a>
@@ -523,44 +556,42 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     TEAM
-══════════════════════════════════════════ -->
-<section id="team" class="py-20 md:py-28 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- ══════════ TEAM ══════════ -->
+<section id="team" class="py-24 md:py-36 bg-cream">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
 
-    <div class="text-center mb-16" data-aos="fade-up">
-      <p class="text-forest-500 text-xs uppercase tracking-[.25em] font-semibold mb-3" data-i18n="team_label">Spoznajte nás</p>
-      <h2 class="font-serif text-4xl md:text-5xl text-gray-700" data-i18n="team_title">Náš tím</h2>
+    <div class="text-center max-w-2xl mx-auto mb-16 md:mb-20" data-aos="fade-up">
+      <p class="eyebrow mb-5" style="justify-content:center" data-i18n="team_label">Spoznajte nás</p>
+      <h2 class="font-serif text-4xl md:text-6xl font-bold text-forest-900 leading-[1.02]" data-i18n="team_title">Náš tím</h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-4xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 max-w-4xl mx-auto">
 
-      <div class="text-center" data-aos="fade-up" data-aos-delay="0">
-        <img src="images/milan.webp" alt="Milan Klimčík" class="team-photo mx-auto mb-5 ring-4 ring-forest-100 ring-offset-4">
-        <h3 class="font-serif text-xl font-semibold text-gray-700">Milan Klimčík</h3>
-        <p class="text-forest-500 text-xs uppercase tracking-wide font-medium mt-1 mb-3" data-i18n="team_milan_role">Majiteľ, chovateľ a jazdec</p>
-        <div class="text-sm text-gray-500 space-y-1">
+      <div class="text-center" data-aos="fade-up">
+        <img src="images/milan.webp" alt="Milan Klimčík" class="team-photo mx-auto mb-6 ring-1 ring-bark/5 shadow-xl">
+        <h3 class="font-serif text-xl font-semibold text-forest-900">Milan Klimčík</h3>
+        <p class="text-forest-500 text-[11px] uppercase tracking-eyebrow font-semibold mt-2 mb-4" data-i18n="team_milan_role">Majiteľ, chovateľ a jazdec</p>
+        <div class="text-sm text-bark/55 space-y-1.5">
           <p><a href="tel:+421905228824" class="hover:text-forest-600 transition-colors">+421 905 228 824</a></p>
           <p><a href="mailto:klimcik.milan@gmail.com" class="hover:text-forest-600 transition-colors break-all">klimcik.milan@gmail.com</a></p>
         </div>
       </div>
 
       <div class="text-center" data-aos="fade-up" data-aos-delay="100">
-        <img src="images/anton2.webp" alt="Anton Kondela" class="team-photo mx-auto mb-5 ring-4 ring-forest-100 ring-offset-4">
-        <h3 class="font-serif text-xl font-semibold text-gray-700">Anton Kondela</h3>
-        <p class="text-forest-500 text-xs uppercase tracking-wide font-medium mt-1 mb-3" data-i18n="team_anton_role">Tréner</p>
-        <div class="text-sm text-gray-500 space-y-1">
+        <img src="images/anton2.webp" alt="Anton Kondela" class="team-photo mx-auto mb-6 ring-1 ring-bark/5 shadow-xl">
+        <h3 class="font-serif text-xl font-semibold text-forest-900">Anton Kondela</h3>
+        <p class="text-forest-500 text-[11px] uppercase tracking-eyebrow font-semibold mt-2 mb-4" data-i18n="team_anton_role">Tréner</p>
+        <div class="text-sm text-bark/55 space-y-1.5">
           <p><a href="tel:+421917231426" class="hover:text-forest-600 transition-colors">+421 917 231 426</a></p>
           <p><a href="mailto:kondelaanton@gmail.com" class="hover:text-forest-600 transition-colors break-all">kondelaanton@gmail.com</a></p>
         </div>
       </div>
 
       <div class="text-center" data-aos="fade-up" data-aos-delay="200">
-        <img src="images/klaudia.webp" alt="Klaudia Jagnešáková" class="team-photo mx-auto mb-5 ring-4 ring-forest-100 ring-offset-4">
-        <h3 class="font-serif text-xl font-semibold text-gray-700">Klaudia Jagnešáková</h3>
-        <p class="text-forest-500 text-xs uppercase tracking-wide font-medium mt-1 mb-3" data-i18n="team_klaudia_role">Jazdecká škola a ubytovanie</p>
-        <div class="text-sm text-gray-500 space-y-1">
+        <img src="images/klaudia.webp" alt="Klaudia Jagnešáková" class="team-photo mx-auto mb-6 ring-1 ring-bark/5 shadow-xl">
+        <h3 class="font-serif text-xl font-semibold text-forest-900">Klaudia Jagnešáková</h3>
+        <p class="text-forest-500 text-[11px] uppercase tracking-eyebrow font-semibold mt-2 mb-4" data-i18n="team_klaudia_role">Jazdecká škola a ubytovanie</p>
+        <div class="text-sm text-bark/55 space-y-1.5">
           <p><a href="tel:+421908625961" class="hover:text-forest-600 transition-colors">+421 908 625 961</a></p>
           <p><a href="mailto:klimcikova.klaudia@gmail.com" class="hover:text-forest-600 transition-colors break-all">klimcikova.klaudia@gmail.com</a></p>
           <p><a href="https://naokraji.sk" target="_blank" class="text-forest-600 hover:underline font-medium">naokraji.sk</a></p>
@@ -572,70 +603,47 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     SPONSORS
-══════════════════════════════════════════ -->
-<section class="py-12 bg-cream border-t border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <p class="text-center text-xs uppercase tracking-[.3em] text-gray-400 font-medium mb-10" data-i18n="sponsors_label">Partneri &amp; sponzori</p>
-    <div class="flex flex-wrap items-center justify-center gap-4">
-      <div class="bg-white rounded-xl shadow-sm px-5 py-3 flex items-center justify-center w-[150px] h-[80px]">
-        <img src="images/sponzors/diamond.png" alt="Realwear" class="sponsor-logo h-12 md:h-14 object-contain">
-      </div>
-      <div class="bg-white rounded-xl shadow-sm px-5 py-3 flex items-center justify-center w-[150px] h-[80px]">
-        <img src="images/sponzors/carhartt3.png" alt="Carhartt" class="sponsor-logo h-12 md:h-14 object-contain">
-      </div>
-      <div class="bg-white rounded-xl shadow-sm px-5 py-3 flex items-center justify-center w-[150px] h-[80px]">
-        <img src="images/sponzors/ncha-baner-new2.png" alt="Czech & Slovak NCHA" class="sponsor-logo h-12 md:h-14 object-contain">
-      </div>
-      <div class="bg-white rounded-xl shadow-sm px-5 py-3 flex items-center justify-center w-[150px] h-[80px]">
-        <img src="images/sponzors/chto2.png" alt="CHTO" class="sponsor-logo h-12 md:h-14 object-contain">
-      </div>
-      <div class="bg-white rounded-xl shadow-sm px-5 py-3 flex items-center justify-center w-[150px] h-[80px]">
-        <img src="images/sponzors/GZ.png" alt="GZ" class="sponsor-logo h-12 md:h-14 object-contain">
-      </div>
-      <div class="bg-white rounded-xl shadow-sm px-5 py-3 flex items-center justify-center w-[150px] h-[80px]">
-        <img src="images/sponzors/iconoclast.png" alt="Iconoclast" class="sponsor-logo h-12 md:h-14 object-contain">
-      </div>
-      <div class="bg-white rounded-xl shadow-sm px-5 py-3 flex items-center justify-center w-[150px] h-[80px]">
-        <img src="images/sponzors/geloren.png" alt="Geloren" class="sponsor-logo h-12 md:h-14 object-contain">
-      </div>
+<!-- ══════════ SPONSORS ══════════ -->
+<section class="py-16 bg-white border-t border-bark/5">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+    <p class="text-center text-xs uppercase tracking-eyebrow text-bark/35 font-semibold mb-12" data-i18n="sponsors_label">Partneri &amp; sponzori</p>
+    <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+      <img src="images/sponzors/diamond.png"        alt="Realwear"               class="sponsor-logo h-12 md:h-14 object-contain">
+      <img src="images/sponzors/carhartt3.png"      alt="Carhartt"               class="sponsor-logo h-12 md:h-14 object-contain">
+      <img src="images/sponzors/ncha-baner-new2.png" alt="Czech & Slovak NCHA"   class="sponsor-logo h-12 md:h-14 object-contain">
+      <img src="images/sponzors/chto2.png"          alt="CHTO"                   class="sponsor-logo h-12 md:h-14 object-contain">
+      <img src="images/sponzors/GZ.png"             alt="GZ"                     class="sponsor-logo h-12 md:h-14 object-contain">
+      <img src="images/sponzors/iconoclast.png"     alt="Iconoclast"             class="sponsor-logo h-12 md:h-14 object-contain">
+      <img src="images/sponzors/geloren.png"        alt="Geloren"                class="sponsor-logo h-12 md:h-14 object-contain">
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     MAP
-══════════════════════════════════════════ -->
-<section id="contact" class="py-20 md:py-28 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12" data-aos="fade-up">
-      <p class="text-forest-500 text-xs uppercase tracking-[.25em] font-semibold mb-3" data-i18n="contact_label">Nájdete nás</p>
-      <h2 class="font-serif text-4xl md:text-5xl text-gray-700" data-i18n="contact_title">Kde sme</h2>
+<!-- ══════════ CONTACT / MAP ══════════ -->
+<section id="contact" class="py-24 md:py-36 bg-cream">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+    <div class="text-center max-w-2xl mx-auto mb-12 md:mb-14" data-aos="fade-up">
+      <p class="eyebrow mb-5" style="justify-content:center" data-i18n="contact_label">Nájdete nás</p>
+      <h2 class="font-serif text-4xl md:text-6xl font-bold text-forest-900 leading-[1.02]" data-i18n="contact_title">Kde sme</h2>
     </div>
-    <div class="rounded-2xl overflow-hidden shadow-xl" data-aos="fade-up" data-aos-delay="80">
+    <div class="rounded-[20px] overflow-hidden shadow-[0_40px_80px_-30px_rgba(33,24,15,.4)] ring-1 ring-bark/5" data-aos="fade-up" data-aos-delay="80">
       <div class="map-wrap">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10377.036919905275!2d19.2807269!3d49.4418173!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x96c5eac764fba028!2sNorth+Orava+Cutting+Horses!5e0!3m2!1ssk!2scz!4v1505839917432"
-          allowfullscreen loading="lazy"
-        ></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10377.036919905275!2d19.2807269!3d49.4418173!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x96c5eac764fba028!2sNorth+Orava+Cutting+Horses!5e0!3m2!1ssk!2scz!4v1505839917432" allowfullscreen loading="lazy"></iframe>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════ -->
+<!-- ══════════ FOOTER ══════════ -->
 <footer class="bg-forest-900 text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
 
       <div>
-        <h4 class="font-serif text-base font-semibold mb-4 text-white" data-i18n="footer_contact_title">Kontakt</h4>
-        <div class="space-y-2 text-white/60 text-sm leading-relaxed">
+        <h4 class="font-serif text-base font-semibold mb-5 text-white" data-i18n="footer_contact_title">Kontakt</h4>
+        <div class="space-y-2 text-white/55 text-sm leading-relaxed">
           <p><a href="mailto:klimcik.milan@gmail.com" class="hover:text-white transition-colors">klimcik.milan@gmail.com</a></p>
           <p><a href="tel:+421905228824" class="hover:text-white transition-colors">+421 905 228 824</a></p>
           <p class="pt-1">Novoť 109<br>029 55 Slovakia</p>
@@ -643,27 +651,33 @@
       </div>
 
       <div class="md:text-center">
-        <h4 class="font-serif text-base font-semibold mb-4 text-white" data-i18n="footer_social_title">Sledujte nás</h4>
-        <div class="flex md:justify-center gap-3 mb-4">
-          <a href="https://www.facebook.com/NorthOravaCuttingHorses/" target="_blank" rel="noopener"
-             class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
+        <h4 class="font-serif text-base font-semibold mb-5 text-white" data-i18n="footer_social_title">Sledujte nás</h4>
+        <div class="flex flex-col md:items-center gap-2.5 mb-4">
+          <a href="https://www.facebook.com/NorthOravaCuttingHorses/" target="_blank" rel="noopener" class="group inline-flex items-center gap-3 text-white/65 hover:text-white transition-colors">
+            <span class="w-9 h-9 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-colors shrink-0">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </span>
+            <span class="text-sm font-medium">Facebook</span>
           </a>
-          <a href="https://www.instagram.com/noc_horses/" target="_blank" rel="noopener"
-             class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
+          <a href="https://www.instagram.com/noc_horses/" target="_blank" rel="noopener" class="group inline-flex items-center gap-3 text-white/65 hover:text-white transition-colors">
+            <span class="w-9 h-9 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-colors shrink-0">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </span>
+            <span class="text-sm font-medium">@noc_horses</span>
+          </a>
+          <a href="https://www.instagram.com/noch_training/" target="_blank" rel="noopener" class="group inline-flex items-center gap-3 text-white/65 hover:text-white transition-colors">
+            <span class="w-9 h-9 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-colors shrink-0">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </span>
+            <span class="text-sm font-medium">@noch_training</span>
           </a>
         </div>
-        <a href="https://naokraji.sk" target="_blank" class="text-white/50 hover:text-white/80 text-sm transition-colors">naokraji.sk &rarr;</a>
+        <a href="https://naokraji.sk" target="_blank" class="text-white/45 hover:text-white/80 text-sm transition-colors">naokraji.sk &rarr;</a>
       </div>
 
       <div class="md:text-right">
         <img src="images/logo_white_small.png" alt="North Orava Cutting Horses" class="h-12 mb-4 md:ml-auto">
-        <p class="text-white/35 text-xs" data-i18n="footer_copyright">© 2026 North Orava Cutting Horses</p>
+        <p class="text-white/30 text-xs" data-i18n="footer_copyright">© 2026 North Orava Cutting Horses</p>
       </div>
 
     </div>
@@ -672,44 +686,86 @@
 
 
 <!-- ══════ Scripts ══════ -->
-<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 
 <script>
-  AOS.init({ duration: 680, once: true, offset: 55 });
-  GLightbox({ selector: '.glightbox' });
+  AOS.init({ duration: 820, once: true, offset: 70, easing: 'ease-out-cubic' });
+  GLightbox({ selector: '.glightbox', loop: true });
 
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create','UA-34344036-1','auto');
-  ga('send','pageview');
-</script>
+  /* ── Nav scroll state + mobile menu ── */
+  (function () {
+    var nav = document.getElementById('nav');
+    var onScroll = function () { nav.classList.toggle('nav-scrolled', window.scrollY > 60); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
 
-<script>
+    var btn = document.getElementById('menuBtn'), menu = document.getElementById('mobileMenu');
+    var iOpen = document.getElementById('menuOpen'), iClose = document.getElementById('menuClose');
+    var setMenu = function (open) {
+      menu.classList.toggle('hidden', !open);
+      iOpen.classList.toggle('hidden', open);
+      iClose.classList.toggle('hidden', !open);
+      btn.setAttribute('aria-expanded', open);
+    };
+    btn.addEventListener('click', function () { setMenu(menu.classList.contains('hidden')); });
+    document.querySelectorAll('.mobile-link').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+  })();
+
+  /* ── Hero parallax ── */
+  (function () {
+    var bg = document.getElementById('heroBg');
+    if (!bg || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var y = window.scrollY;
+        if (y < window.innerHeight) bg.style.transform = 'translateY(' + (y * 0.35) + 'px)';
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
+
+  /* ── Count-up stats ── */
+  (function () {
+    var fmt = function (n, sep) { return sep ? n.toLocaleString('sk-SK').replace(/\u00A0/g, ' ').replace(/,/g, ' ') : String(n); };
+    var animate = function (el) {
+      var target = +el.dataset.count, sep = el.dataset.sep, dur = 1400, start = null;
+      var step = function (t) {
+        if (!start) start = t;
+        var p = Math.min((t - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.round(target * eased), sep);
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat').forEach(function (el) { io.observe(el); });
+  })();
+
+  /* ── i18n ── */
   function applyLang(lang) {
     const t = translations[lang] || translations.sk;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.textContent = t[el.dataset.i18n] || el.textContent;
-    });
-    document.querySelectorAll('[data-i18n-html]').forEach(el => {
-      el.innerHTML = t[el.dataset.i18nHtml] || el.innerHTML;
-    });
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t[el.dataset.i18n] || el.textContent; });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t[el.dataset.i18nHtml] || el.innerHTML; });
     document.querySelectorAll('[data-lang-btn]').forEach(btn => {
       const active = btn.dataset.langBtn === lang;
       btn.classList.toggle('bg-white/20', active);
       btn.classList.toggle('font-semibold', active);
       btn.classList.toggle('text-white', active);
-      btn.classList.toggle('text-white/65', !active);
+      btn.classList.toggle('text-white/60', !active);
     });
     document.documentElement.lang = lang;
     localStorage.setItem('lang', lang);
   }
-
-  const lang = new URLSearchParams(location.search).get('lang')
-    || localStorage.getItem('lang') || 'sk';
+  const lang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('lang') || 'sk';
   applyLang(lang);
 </script>
 
