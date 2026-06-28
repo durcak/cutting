@@ -80,7 +80,7 @@ const translations = {
     team_title:         'Náš tím',
     team_milan_role:    'Majiteľ, chovateľ a jazdec',
     team_anton_role:    'Tréner',
-    team_klaudia_role:  'Jazdecká škola',
+    team_klaudia_role:  'Jazdecká škola a ubytovanie',
 
     // Sponsors
     sponsors_label: 'Partneri & sponzori',
@@ -167,7 +167,7 @@ const translations = {
     team_title:         'Our team',
     team_milan_role:    'Owner, breeder and rider',
     team_anton_role:    'Trainer',
-    team_klaudia_role:  'Riding school',
+    team_klaudia_role:  'Riding school & accommodation',
 
     sponsors_label: 'Partners & sponsors',
 
@@ -251,7 +251,7 @@ const translations = {
     team_title:         'Unser Team',
     team_milan_role:    'Inhaber, Züchter und Reiter',
     team_anton_role:    'Trainer',
-    team_klaudia_role:  'Reitschule',
+    team_klaudia_role:  'Reitschule & Unterkunft',
 
     sponsors_label: 'Partner & Sponsoren',
 
@@ -334,7 +334,7 @@ const translations = {
     team_title:         'Nasz zespół',
     team_milan_role:    'Właściciel, hodowca i jeździec',
     team_anton_role:    'Trener',
-    team_klaudia_role:  'Szkoła jeździecka',
+    team_klaudia_role:  'Szkoła jeździecka i noclegi',
 
     sponsors_label: 'Partnerzy i sponsorzy',
 
